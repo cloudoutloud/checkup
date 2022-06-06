@@ -3,9 +3,13 @@ import boto3.session
 import json
 from jsonpath import JSONPath
 
-# If using default profile uncomment line 10,11
-my_profile_name = ""
-my_session = boto3.session.Session(profile_name = my_profile_name)
+# # If using default profile uncomment line 10,11
+# my_profile_name = ""
+# my_session = boto3.session.Session(profile_name = my_profile_name)
+
+# # Output json data to file
+# with open('data.json', 'w')as f:
+#     json.dump(<data>, f)
 
 # Getting AWS account id from assumed profile
 account_id = boto3.client('sts').get_caller_identity().get('Account')
@@ -14,15 +18,17 @@ print("Using account id: " + account_id)
 ## List EKS and get latest version TODO
 # eks = boto3.client('eks')
 # eks_versions = eks.describe_addon_versions()
-# with open('data.json', 'w')as f:
-#     json.dump(eks_versions, f)
 
 ## List Managed service Kafka and get latest version
 msk = boto3.client('kafka')
 msk_versions = msk.list_kafka_versions()
 # print(json.dumps(msk_versions, indent = 1))
-latest_version = msk_versions["KafkaVersions"][-1]["Version"]
-print("Latest Managed Service Kafka version is: " + latest_version)
+msk_latest_version = msk_versions["KafkaVersions"][-1]["Version"]
+print("Latest Managed Service Kafka version is: " + msk_latest_version)
+
+# Loop through MSK clusters and list ClusterName and CurrentVersion
+msk_clusters = msk.list_clusters_v2()
+# print(msk_clusters)
 
 ## List Elastic search versions and get latest version
 es = boto3.client('opensearch')
