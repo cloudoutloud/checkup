@@ -13,6 +13,8 @@ from jsonpath import JSONPath
 
 # Getting AWS account id from assumed profile
 account_id = boto3.client('sts').get_caller_identity().get('Account')
+# Will only wokr if account is member of a org
+#account_name = boto3.client('organizations').describe_account(AccountId=account_id).get('Account').get('Name')
 print("Using account id: " + account_id)
 
 ## List EKS and get latest version TODO
