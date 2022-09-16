@@ -12,7 +12,7 @@ import yaml
 # with open('data.json', 'w')as f:
 #     json.dump(<data>, f)
 
-# Getting AWS account id from assumed profile
+# Getting current AWS account id from assumed in profile
 account_id = boto3.client('sts').get_caller_identity().get('Account')
 # Will only work if account is member of an org
 # Account_name = boto3.client('organizations').describe_account(AccountId=account_id).get('Account').get('Name') TODO
@@ -57,16 +57,25 @@ def rds():
     rds = boto3.client('rds')
     rds_verisons = rds.describe_db_engine_versions()
     # print(json.dumps(rds_verisons, indent = 1))
+
     aurora_mysql_latest_version = JSONPath('$.DBEngineVersions[?(@.Engine=="aurora-mysql")].EngineVersion').parse(rds_verisons)[0]
     print("Latest Aurora MYSQL version is: " + aurora_mysql_latest_version)
+
     aurora_mysql_latest_version = JSONPath('$.DBEngineVersions[?(@.Engine=="aurora-postgresql")].EngineVersion').parse(rds_verisons)[-1]
     print("Latest Aurora Postgresql version is: " + aurora_mysql_latest_version)
 
-for accounts in account_id:
+    rds_clusters = rds.describe_db_clusters()
+    if len(rds_clusters["DBClusters"]) == 0:
+        print("No RDS clusters found in account skipping....")
+    else:
+        print(yaml.dump(rds_clusters["DBClusters"], sort_keys=False, default_flow_style=False))
+
+for services in account_id:
     print("Using account id: " + account_id)
+    # print("Using account: " account_name + account_id)
     kafka()
     es()
     rds()
     break
 else:
-    print("No aws accounts configured...")
+    print("No valid aws account configured...")
