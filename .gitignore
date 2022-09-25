@@ -65,9 +65,6 @@ env/
 venv/
 ENV/
 
-# sftp configuration file
-sftp-config.json
-
 # Package control specific files Package
 Control.last-run
 Control.ca-list
@@ -82,3 +79,6 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# JSON
+*.json
