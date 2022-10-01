@@ -1,0 +1,10 @@
+boto3==1.24.84
+botocore==1.27.84
+jmespath==1.0.1
+jsonpath==0.82
+jsonpath-python==1.0.6
+python-dateutil==2.8.2
+s3transfer==0.6.0
+six==1.16.0
+tabulate==0.8.10
+urllib3==1.26.12
