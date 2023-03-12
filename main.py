@@ -1,11 +1,16 @@
+from ctypes.wintypes import ATOM
 from traceback import print_tb
 import boto3
 import boto3.session
 import json
+import jsonpath
 from jsonpath import JSONPath
-# import yaml
 from tabulate import tabulate
-# import requests
+import click
+
+@click.group()
+def cli():
+    """Check AWS managed service are up to date"""
 
 # Getting current AWS account id from assumed in profile
 account_id = boto3.client('sts').get_caller_identity().get('Account')
@@ -14,10 +19,7 @@ def accounts():
         account_name = "DEVELOPMENT"
     elif account_id == "":
         account_name = "STAGING"
-
     print("Using account id:", account_id, account_name)
-    # Will only work if account is member of an org don't have perms TODO
-    # Account_name = boto3.client('organizations').describe_account(AccountId=account_id).get('Account').get('Name') TODO
 
 # To check version against latest
 def check(list1, val):
@@ -26,8 +28,7 @@ def check(list1, val):
 
 def eks():
     print("<<<<<<<<<<<<<<< EKS >>>>>>>>>>>>>>>")
-    ## List Elastic search versions and get latest version
-    # eks = boto3.client('eks')
+    eks = boto3.client('eks')
     # response = requests.get('https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
     # response.text
     # print(response)
@@ -120,13 +121,16 @@ def rds():
         print(tabulate(db_list, headers=["RDS-Name","Engine", "Version"], tablefmt="fancy_grid"), end="\n")
         check(db_list,aurora_mysql_latest_version)
 
+
+# Loops through everything if scirpt is run
 for services in account_id:
-    # print("Using account id:", account_id)
-    accounts()
-    eks()
+    print("Using account id:", account_id)
+    cli()
+    # accounts()
+    # eks()
     kafka()
-    es()
-    rds()
+    # es()
+    # rds()
     break
 else:
     print("No valid aws account configured...")
