@@ -4,18 +4,20 @@ import boto3.session
 import json
 from jsonpath import JSONPath
 from tabulate import tabulate
-# import requests
+import requests
+import subprocess
 
 def eks():
     print("<<<<<<<<<<<<<<< EKS >>>>>>>>>>>>>>>")
     ## List Elastic search versions and get latest version
     eks = boto3.client('eks')
-    # response = requests.get('https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
-    # response.text
-    # print(response)
-    # latest = $(curl -s https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss | grep "<title>Kubernetes version" | sed -n '1p')
-    # eks_latest_version = $(echo $latest| sed 's/[^0-9.]*//g')
-    # print("Latest eks version is: " + eks_latest_version)
+    response = requests.get('https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
+    response.text
+    latest = "curl -s https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss | grep '<title>Kubernetes version' | sed -n '1p'"
+    output = subprocess.check_output(latest, shell=True, universal_newlines=True)
+    sed_command = "sed 's/[^0-9.]*//g'"
+    eks_latest_version = subprocess.check_output(sed_command, input=output, shell=True, universal_newlines=True)
+    print("Latest eks version is: " + eks_latest_version)
 
     # Loop through EKS Clusters and list name and version
     eks_cluster_names = eks.list_clusters()
