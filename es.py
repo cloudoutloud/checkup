@@ -5,7 +5,7 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
-def es():
+def check_es():
     print("<<<<<<<<<<<<<<< ElasticSearch >>>>>>>>>>>>>>>")
     ## List Elastic search versions and get latest version
     es = boto3.client('opensearch')

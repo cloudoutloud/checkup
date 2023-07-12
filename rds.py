@@ -5,7 +5,7 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
-def rds():
+def check_rds():
     print("<<<<<<<<<<<<<<< RDS >>>>>>>>>>>>>>>")
     ## List RDS versions and get latest version
     rds = boto3.client('rds')
