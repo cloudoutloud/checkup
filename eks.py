@@ -7,7 +7,7 @@ from tabulate import tabulate
 import requests
 import subprocess
 
-def eks():
+def check_eks():
     print("<<<<<<<<<<<<<<< EKS >>>>>>>>>>>>>>>")
     ## List Elastic search versions and get latest version
     eks = boto3.client('eks')

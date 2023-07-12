@@ -5,7 +5,7 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
-def kafka():
+def check_msk():
     print("<<<<<<<<<<<<<<< MSK >>>>>>>>>>>>>>>")
     ## List Managed service Kafka and get latest version
     msk = boto3.client('kafka')
