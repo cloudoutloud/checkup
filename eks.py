@@ -13,7 +13,7 @@ def check_eks():
     eks = boto3.client('eks')
     response = requests.get('https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
     response.text
-    latest = "curl -s https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss | grep '<title>Kubernetes version' | sed -n '1p'"
+    latest = "curl -s https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss | grep '<title>Kubernetes version [0-9]' | sed -n '1p'"
     output = subprocess.check_output(latest, shell=True, universal_newlines=True)
     sed_command = "sed 's/[^0-9.]*//g'"
     eks_latest_version = subprocess.check_output(sed_command, input=output, shell=True, universal_newlines=True)
