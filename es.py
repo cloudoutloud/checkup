@@ -5,9 +5,10 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
+
 def check_es():
     print("<<<<<<<<<<<<<<< ElasticSearch >>>>>>>>>>>>>>>")
-    ## List Elastic search versions and get latest version
+    # List Elastic search versions and get latest version
     es = boto3.client('opensearch')
     es_verisons = es.list_versions()
     es_latest_version = es_verisons["Versions"][0]
@@ -25,6 +26,6 @@ def check_es():
         version_list = []
         for name in domain_name_list:
             describe_domain = es.describe_domain(DomainName=name)
-            versions = (describe_domain["DomainStatus"]["DomainName"]),(describe_domain["DomainStatus"]["EngineVersion"])
+            versions = (describe_domain["DomainStatus"]["DomainName"]), (describe_domain["DomainStatus"]["EngineVersion"])
             version_list.append(versions)
-        print(tabulate(version_list, headers=["ES-Domain-Name","Version"], tablefmt="fancy_grid"), end="\n")
+        print(tabulate(version_list, headers=["ES-Domain-Name", "Version"], tablefmt="fancy_grid"), end="\n")

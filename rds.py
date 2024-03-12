@@ -5,9 +5,10 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
+
 def check_rds():
     print("<<<<<<<<<<<<<<< RDS >>>>>>>>>>>>>>>")
-    ## List RDS versions and get latest version
+    # List RDS versions and get latest version
     rds = boto3.client('rds')
     rds_verisons = rds.describe_db_engine_versions()
 
@@ -24,6 +25,6 @@ def check_rds():
     else:
         db_list = []
         for db in rds_clusters["DBClusters"]:
-            dbs = (db["DBClusterIdentifier"]),(db["Engine"]),(db["EngineVersion"])
+            dbs = (db["DBClusterIdentifier"]), (db["Engine"]), (db["EngineVersion"])
             db_list.append(dbs)
-        print(tabulate(db_list, headers=["RDS-Name","Engine", "Version"], tablefmt="fancy_grid"), end="\n")
+        print(tabulate(db_list, headers=["RDS-Name", "Engine", "Version"], tablefmt="fancy_grid"), end="\n")
