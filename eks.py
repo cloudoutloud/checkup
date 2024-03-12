@@ -8,10 +8,12 @@ import requests
 import subprocess
 from itertools import islice, cycle
 
+
 def check_eks():
     print("<<<<<<<<<<<<<<< EKS >>>>>>>>>>>>>>>")
     eks = boto3.client('eks')
-    response = requests.get('https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
+    response = requests.get(
+        'https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss')
     response.text
     latest = "curl -s https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss | grep '<title>Kubernetes version [0-9]' | sed -n '1p'"
     output = subprocess.check_output(latest, shell=True, universal_newlines=True)
@@ -32,9 +34,9 @@ def check_eks():
         version_list = []
         for name in cluster_name_list:
             describe_cluster = eks.describe_cluster(name=name)
-            versions = (describe_cluster["cluster"]["name"]),(describe_cluster["cluster"]["version"])
+            versions = (describe_cluster["cluster"]["name"]), (describe_cluster["cluster"]["version"])
             version_list.append(versions)
-        print(tabulate(version_list, headers=["EKS-Cluster-Name","EKS-Version"], tablefmt="fancy_grid"), end="\n")
+        print(tabulate(version_list, headers=["EKS-Cluster-Name", "EKS-Version"], tablefmt="fancy_grid"), end="\n")
 
         # Get addons for each cluster
         addons_list = []
@@ -44,7 +46,7 @@ def check_eks():
             addons_list.append(addons)
             addons_tuple = tuple(map(tuple, addons_list))
         a = list(zip(cluster_name_list, addons_tuple,))
-        print(tabulate(a, headers=["EKS-Cluster-Name","Addons-Installed"], tablefmt="fancy_grid"), end="\n")
+        print(tabulate(a, headers=["EKS-Cluster-Name", "Addons-Installed"], tablefmt="fancy_grid"), end="\n")
 
         # Split addons_tuple into a list so can use in for loop below
         tuple_to_split = addons_tuple
@@ -53,7 +55,7 @@ def check_eks():
         # Get addons version for each addon
         addons_version_list = []
         for addon in addons_string_list:
-            describe_addons = eks.describe_addon(clusterName=name,addonName=addon)
+            describe_addons = eks.describe_addon(clusterName=name, addonName=addon)
             addons_version = (describe_addons["addon"]["addonVersion"])
             addons_version_list.append(addons_version)
 

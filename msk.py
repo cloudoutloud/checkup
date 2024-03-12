@@ -5,9 +5,10 @@ import json
 from jsonpath import JSONPath
 from tabulate import tabulate
 
+
 def check_msk():
     print("<<<<<<<<<<<<<<< MSK >>>>>>>>>>>>>>>")
-    ## List Managed service Kafka and get latest version
+    # List Managed service Kafka and get latest version
     msk = boto3.client('kafka')
     msk_versions = msk.list_kafka_versions()
     msk_latest_version = msk_versions["KafkaVersions"][-1]["Version"]
@@ -20,6 +21,6 @@ def check_msk():
     else:
         cluster_list = []
         for cluster in msk_clusters["ClusterInfoList"]:
-            clusters = (cluster["ClusterName"]),(cluster["Provisioned"]["CurrentBrokerSoftwareInfo"]["KafkaVersion"])
+            clusters = (cluster["ClusterName"]), (cluster["Provisioned"]["CurrentBrokerSoftwareInfo"]["KafkaVersion"])
             cluster_list.append(clusters)
-        print(tabulate(cluster_list, headers=["MSK-Cluster-Name","Kafka-Version"], tablefmt="fancy_grid"), end="\n")
+        print(tabulate(cluster_list, headers=["MSK-Cluster-Name", "Kafka-Version"], tablefmt="fancy_grid"), end="\n")
