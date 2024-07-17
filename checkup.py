@@ -14,7 +14,7 @@ account_id = boto3.client('sts').get_caller_identity().get('Account')
 @click.option('--msk', is_flag=True, help='Managed Service Kafka')
 @click.option('--es',  is_flag=True, help='OpenSearch Service')
 @click.option('--rds', is_flag=True, help='Relational Database Service')
-@click.option('--all', is_flag=True, help='Loop through all supported services')
+@click.option('--all', is_flag=True, help='Loop through all supported AWS services')
 def checkup(eks, msk, es, rds, all):
     if eks:
         check_eks()
